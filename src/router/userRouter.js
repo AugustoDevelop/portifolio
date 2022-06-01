@@ -17,5 +17,4 @@ router.patch('/:id', async function (req, res) {
   return users ? res.status(200).json(users) : res.status(404).json({ errorMessage: 'User not found' });
 });
 
-
 module.exports = router;

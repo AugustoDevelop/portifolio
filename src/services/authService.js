@@ -68,7 +68,6 @@ exports.signin = (req, res) => {
   });
 };
 
-
 exports.createRole = (req, res) => {
   const role = new Role(req.body);
 
@@ -76,4 +75,45 @@ exports.createRole = (req, res) => {
     if (err) return res.status(500).send({ message: err });
     res.send({ message: "Role was registered successfully!" });
   });
+}
+
+exports.updateRole = async (req, res) => {
+  try {
+    const filter = { name: req.params.name };
+    const update = { name: req.body.name };
+    const options = { new: true };
+    await Role.updateOne(filter, update, options, (err, role) => {
+      console.log('role', role);
+      if (err) return res.status(500).send({ message: err });
+      if (role.modifiedCount === 0) return res.status(400).send({ message: "Role not found!" });
+      if (role.modifiedCount === 1) return res.status(200).send({ message: "Role was updated successfully!", role: update });
+    });
+  } catch (error) {
+
+  }
+}
+
+exports.deleteRole = async (req, res) => {
+  try {
+    const filter = { name: req.params.name };
+    await Role.deleteOne(filter, (err, role) => {
+      if (err) return res.status(500).send({ message: err });
+      if (role.deletedCount === 0) return res.status(400).send({ message: "Role not found!" });
+      if (role.deletedCount === 1) return res.status(200).send({ message: "Role was deleted successfully!" });
+    });
+  } catch (error) {
+
+  }
+}
+
+exports.getRoles = async (req, res) => {
+  try {
+    await Role.find((err, roles) => {
+      if (err) return res.status(500).send({ message: err });
+      if (roles.length === 0) return res.status(400).send({ message: "Roles not found!" });
+      return res.status(200).send({ message: "Roles found!", roles });
+    });
+  } catch (error) {
+
+  }
 }

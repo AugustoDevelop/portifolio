@@ -13,6 +13,13 @@ router.post("/signup",
 
 router.post("/signin", authController.signin);
 
+//Roles
 router.post("/createRole", authController.createRole);
+
+router.patch("/updateRole/:name", authController.updateRole);
+
+router.delete("/deleteRole/:name", authController.deleteRole);
+
+router.get("/getRoles", authController.getRoles);
 
 module.exports = router;
