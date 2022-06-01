@@ -48,10 +48,11 @@ exports.signin = (req, res) => {
         message: "Invalid Password!"
       });
     }
-    let aux = !!config.secret ? config.secret : process.env.secret
-    var token = jwt.sign({ id: user.id }, aux, {
+
+    var token = jwt.sign({ id: user.id }, process.env.secret || config.secret, {
       expiresIn: 600
     });
+
     var authorities = [];
 
     for (let i = 0; i < user.roles.length; i++) {
