@@ -48,7 +48,7 @@ exports.signin = (req, res) => {
         message: "Invalid Password!"
       });
     }
-    let aux = !!config.secret ? config.secret : process.ENV.secret
+    let aux = !!config.secret ? config.secret : process.env.secret
     var token = jwt.sign({ id: user.id }, aux, {
       expiresIn: 600
     });
