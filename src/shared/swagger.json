@@ -16,8 +16,13 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
-      "description": "Local server"
+      "host": "localhost",
+      "description": "Local server",
+      "port": "3000"
+    },
+    {
+      "host": "portifolio-user-api.herokuapp.com",
+      "description": "Prod server"
     }
   ],
   "paths": {
