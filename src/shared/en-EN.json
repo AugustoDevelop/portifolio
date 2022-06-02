@@ -1,11 +1,11 @@
 {
-    "ROLE_SUCESS": "Role created successfully",
+    "ROLE_SUCESS": "Role was registered successfully!",
     "ROLE_FAIL": "Role creation failed",
     "ROLE_UPDATE_SUCESS": "Role updated successfully",
     "ROLE_UPDATE_FAIL": "Role updation failed",
     "ROLE_DELETE_SUCESS": "Role deleted successfully",
     "ROLE_DELETE_FAIL": "Role deletion failed",
-    "ROLE_ALREADY_EXIST": "Role already exist",
+    "ROLE_EXIST": "Role already exist!",
     "ROLE_NOT_FOUND": "Role not found",
     "USER_SUCESS": "User created successfully",
     "USER_FAIL": "User creation failed",
@@ -13,7 +13,7 @@
     "USER_UPDATE_FAIL": "User updation failed",
     "USER_DELETE_SUCESS": "User deleted successfully",
     "USER_DELETE_FAIL": "User deletion failed",
-    "USER_ALREADY_EXIST": "User already exist",
+    "USER_ALREADY_EXIST": "User already exist!",
     "USER_NOT_FOUND": "User not found",
     "Unauthorized": "Unauthorized",
     "INVALID_TOKEN": "Invalid token",
@@ -24,6 +24,8 @@
     "ROLE_ADMIN": "Require Admin Role",
     "ROLE_USER": "Require User Role",
     "ROLE_MOD": "Require Mode Role",
-    "ALREADY_EMAIL": "Email already exist",
-    "ALREADY_PHONE": "Phone already exist"
+    "ALREADY_EMAIL": "Email already exist!",
+    "ALREADY_PHONE": "Phone already exist!",
+    "INTERNAL_ERROR": "Internal server error",
+    "PASSWORD_NOT_MATCH": "Password not match"
 }

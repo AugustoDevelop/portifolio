@@ -1,8 +1,9 @@
 const Role = require("../models/role.model");
-const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../../config/auth.config");
+const MSG = require("./../shared/en-EN.json")
 
 exports.signup = (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, 8)
@@ -18,7 +19,7 @@ exports.signup = (req, res) => {
         user.roles = roles.map(role => role._id);
         user.save(err => {
           if (err) return res.status(500).send({ message: err });
-          res.send({ message: "User was registered successfully!" });
+          res.send({ message: MSG.USER_SUCESS });
         });
       });
     } else {
@@ -28,7 +29,7 @@ exports.signup = (req, res) => {
         user.roles = [role._id];
         user.save(err => {
           if (err) return res.status(500).send({ message: err });
-          res.send({ message: "User was registered successfully!" });
+          res.send({ message: MSG.USER_SUCESS });
         });
       });
     }
@@ -38,16 +39,10 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({ email: req.body.email }).populate("roles", "-__v").exec((err, user) => {
     if (err) return res.status(500).send({ message: err });
-    if (!user) return res.status(401).send({ message: "Failed to authenticate token." });
 
     var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-    if (!passwordIsValid) {
-      return res.status(401).send({
-        accessToken: null,
-        message: "Invalid Password!"
-      });
-    }
+    if (!passwordIsValid) return res.status(401).send({ accessToken: null, message: MSG.PASSWORD_NOT_MATCH });
 
     var token = jwt.sign({ id: user.id }, process.env.secret || config.secret, {
       expiresIn: 600
@@ -68,12 +63,17 @@ exports.signin = (req, res) => {
   });
 };
 
-exports.createRole = (req, res) => {
-  const role = new Role(req.body);
+exports.createRole = async (req, res) => {
+  Role.findOne({ name: req.body.name }, (err, role) => {
+    if (err) return res.status(500).send({ message: MSG.INTERNAL_ERROR });
+    if (role) return res.status(400).send({ message: MSG.ROLE_EXIST });
 
-  role.save((err, role) => {
-    if (err) return res.status(500).send({ message: err });
-    res.send({ message: "Role was registered successfully!" });
+    const newRole = new Role(req.body);
+
+    newRole.save((err, role) => {
+      if (err) return res.status(500).send({ message: MSG.INTERNAL_ERROR });
+      res.send({ message: MSG.ROLE_SUCESS, role: role });
+    });
   });
 }
 
@@ -83,7 +83,6 @@ exports.updateRole = async (req, res) => {
     const update = { name: req.body.name };
     const options = { new: true };
     await Role.updateOne(filter, update, options, (err, role) => {
-      console.log('role', role);
       if (err) return res.status(500).send({ message: err });
       if (role.modifiedCount === 0) return res.status(400).send({ message: "Role not found!" });
       if (role.modifiedCount === 1) return res.status(200).send({ message: "Role was updated successfully!", role: update });
