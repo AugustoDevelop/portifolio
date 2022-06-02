@@ -2,14 +2,15 @@ const jwt = require("jsonwebtoken");
 const config = require("../../config/auth.config");
 const User = require("../models/user.model");
 const Role = require("../models/role.model");
+const MSG = require("../shared/en-EN.json");
 
 verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+  let token = req.headers.authorization.split(" ")[1];
 
-  if (!token) return res.status(403).send({ message: "No token provided!" });
+  if (!token) return res.status(403).send({ message: MSG.PROVIDED_TOKEN });
 
   jwt.verify(token, process.env.secret || config.secret, (err, decoded) => {
-    if (err) return res.status(401).send({ message: "Unauthorized!" });
+    if (err) return res.status(401).send({ message: MSG.Unauthorized });
     req.userId = decoded.id;
     next();
   });
@@ -26,7 +27,7 @@ isAdmin = (req, res, next) => {
         if (roles[i].name === "admin") return next();
       }
 
-      return res.status(403).send({ message: "Require Admin Role!" });;
+      return res.status(403).send({ message: MSG.ROLE_ADMIN });;
     });
   });
 };
@@ -41,7 +42,7 @@ isModerator = (req, res, next) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "moderator") return next();
       }
-      return res.status(403).send({ message: "Require Moderator Role!" });
+      return res.status(403).send({ message: MSG.ROLE_MOD });
     }
     );
   });
