@@ -10,7 +10,7 @@ verifyToken = (req, res, next) => {
   if (!token) return res.status(403).send({ message: MSG.PROVIDED_TOKEN });
 
   jwt.verify(token, process.env.secret || config.secret, (err, decoded) => {
-    if (err) return res.status(401).send({ message: MSG.Unauthorized });
+    if (err) return res.status(401).send({ accessToken: null, message: MSG.Unauthorized });
     req.userId = decoded.id;
     next();
   });
