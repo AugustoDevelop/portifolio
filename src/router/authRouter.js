@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controller/authController');
 const verifySignUp = require("../middleware/verifySignUp");
+const authencation = require("../middleware/authJwt");
 
 router.post("/signup",
     [
@@ -14,11 +15,11 @@ router.post("/signup",
 router.post("/signin", authController.signin);
 
 //Roles
-router.post("/createRole", authController.createRole);
+router.post("/createRole", authencation.verifyToken, authController.createRole);
 
-router.patch("/updateRole/:name", authController.updateRole);
+router.patch("/updateRole/:name", authencation.verifyToken, authController.updateRole);
 
-router.delete("/deleteRole/:name", authController.deleteRole);
+router.delete("/deleteRole/:name", authencation.verifyToken, authController.deleteRole);
 
 router.get("/getRoles", authController.getRoles);
 
