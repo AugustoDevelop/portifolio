@@ -334,7 +334,7 @@
         "description": "This route is responsible for check user credentials",
         "operationId": "signin",
         "tags": [
-          "Role"
+          "User"
         ],
         "security": [
           {
@@ -461,6 +461,103 @@
                       "type": "string",
                       "description": "Internal Server Error",
                       "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "This route is responsible for register a new user",
+        "operationId": "signup",
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string",
+                    "description": "Full name of the user",
+                    "example": "Test User"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of the user",
+                    "example": "test"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email of the user",
+                    "example": "test@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of the user",
+                    "example": "123qwe"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "description": "Gender of the user",
+                    "example": "male"
+                  },
+                  "phone": {
+                    "type": "number",
+                    "description": "Phone of the user",
+                    "example": 123456789
+                  },
+                  "role": {
+                    "type": "array",
+                    "description": "Momentarily the role is static, so you must use this string",
+                    "items": {
+                      "type": "string",
+                      "example": "62980e630edad3f05598b227"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was registered successfully!",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "User created successfully",
+                      "example": "User created successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed! email is already in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Bad Request",
+                      "example": "Failed! email is already in use"
                     }
                   }
                 }
