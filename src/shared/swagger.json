@@ -106,7 +106,7 @@
                     "message": {
                       "type": "string",
                       "description": "Bad Request",
-                      "example": "Bad Request"
+                      "example": "Role already exist!"
                     }
                   }
                 }
