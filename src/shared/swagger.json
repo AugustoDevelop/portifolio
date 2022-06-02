@@ -18,10 +18,6 @@
     {
       "url": "http://localhost:3000",
       "description": "Local server"
-    },
-    {
-      "url": "https://portifolio-user-api.herokuapp.com",
-      "description": "Production server"
     }
   ],
   "paths": {
