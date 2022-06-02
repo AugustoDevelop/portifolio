@@ -22,9 +22,9 @@
   ],
   "paths": {
     "/createRole": {
-      "get": {
+      "post": {
         "summary": "User profile registration",
-        "description": "This route is responsible for registering a new profile for users",
+        "description": "This route is responsible for create a new profile for users",
         "operationId": "createRole",
         "tags": [
           "Role"
@@ -35,6 +35,7 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -53,8 +54,25 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "description": "Save profile name in lower case",
-                      "example": "Role was registered successfully"
+                      "description": "Save role name in lower case",
+                      "example": "Role was registered successfully!"
+                    },
+                    "role": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "_id": {
+                          "type": "string",
+                          "example": "6297fc9c"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
                     }
                   }
                 }
@@ -79,7 +97,7 @@
             }
           },
           "400": {
-            "description": "Role already exists",
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -89,6 +107,78 @@
                       "type": "string",
                       "description": "Bad Request",
                       "example": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getRoles": {
+      "get": {
+        "summary": "User profile list",
+        "description": "This route is responsible for listering for all roles",
+        "operationId": "getRoles",
+        "tags": [
+          "Role"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Save role name in lower case",
+                      "example": "Role was registered successfully!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Role already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Role already exist",
+                      "example": "Role already exist"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Unauthorized",
+                      "example": "Unauthorized"
                     }
                   }
                 }
