@@ -16,12 +16,16 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api-docs",
+      "url": "http://localhost:3000",
       "description": "Local server"
+    },
+    {
+      "url": "https://portifolio-user-api.herokuapp.com",
+      "description": "Production server"
     }
   ],
   "paths": {
-    "/createRole": {
+    "/auth/createRole": {
       "post": {
         "summary": "User profile registration",
         "description": "This route is responsible for create a new profile for users",
@@ -46,7 +50,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Role was registered successfully!",
             "content": {
               "application/json": {
                 "schema": {
@@ -86,6 +90,11 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Access token",
+                      "example": null
+                    },
                     "message": {
                       "type": "string",
                       "description": "Unauthorized",
@@ -112,11 +121,28 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Internal Server Error",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/getRoles": {
+    "/auth/getRoles": {
       "get": {
         "summary": "User profile list",
         "description": "This route is responsible for listering for all roles",
@@ -124,15 +150,6 @@
         "tags": [
           "Role"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Role"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK",
@@ -143,8 +160,28 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "description": "Save role name in lower case",
-                      "example": "Role was registered successfully!"
+                      "description": "Success",
+                      "example": "Success!"
+                    },
+                    "roles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "admin"
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "6297fc9c"
+                          },
+                          "__v": {
+                            "type": "number",
+                            "example": 0
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -152,7 +189,7 @@
             }
           },
           "400": {
-            "description": "Role already exist",
+            "description": "Roles not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -160,8 +197,89 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "description": "Role already exist",
-                      "example": "Role already exist"
+                      "description": "Roles not found",
+                      "example": "Roles not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Internal Server Error",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/updateRole/:name": {
+      "patch": {
+        "summary": "Update role",
+        "description": "This route is responsible for update a role",
+        "operationId": "updateRole",
+        "tags": [
+          "Role"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Role name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Role"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role was updated successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Role was updated successfully!",
+                      "example": "Role was updated successfully!"
+                    },
+                    "role": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "admin"
+                        }
+                      }
                     }
                   }
                 }
@@ -175,10 +293,174 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Access token",
+                      "example": null
+                    },
                     "message": {
                       "type": "string",
                       "description": "Unauthorized",
                       "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Bad Request",
+                      "example": "Role not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "summary": "Check user credentials",
+        "description": "This route is responsible for check user credentials",
+        "operationId": "signin",
+        "tags": [
+          "Role"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "test@test.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123567"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role was registered successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID of the user",
+                      "example": "6298f..d8186e7"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "Username of the user",
+                      "example": "test"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email of the user",
+                      "example": "test@test.com"
+                    },
+                    "roles": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "_id": {
+                          "type": "string",
+                          "example": "6297fc9c"
+                        },
+                        "__v": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Access token",
+                      "example": "eyJhbGciOi..HnAxY8rEkIKnCJtZeloieMmps0"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Access token",
+                      "example": null
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Unauthorized",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Bad Request",
+                      "example": "Role already exist!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Internal Server Error",
+                      "example": "Internal Server Error"
                     }
                   }
                 }
