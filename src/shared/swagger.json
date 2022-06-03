@@ -16,13 +16,12 @@
   },
   "servers": [
     {
-      "host": "localhost",
-      "description": "Local server",
-      "port": "3000"
+      "url": "http://localhost:3000",
+      "description": "Local server"
     },
     {
-      "host": "portifolio-user-api.herokuapp.com",
-      "description": "Prod server"
+      "url": "https://portifolio-user-api.herokuapp.com",
+      "description": "Heroku server"
     }
   ],
   "paths": {
@@ -226,7 +225,7 @@
         }
       }
     },
-    "/auth/updateRole/:name": {
+    "/auth/updateRole/{name}": {
       "patch": {
         "summary": "Update role",
         "description": "This route is responsible for update a role",
@@ -534,7 +533,6 @@
             "description": "User was registered successfully!",
             "content": {
               "application/json": {
-                "type": "object",
                 "schema": {
                   "type": "object",
                   "properties": {
