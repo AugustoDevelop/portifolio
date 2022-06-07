@@ -5,7 +5,7 @@ const Role = require("../models/role.model");
 const MSG = require("../shared/en-EN.json");
 
 verifyToken = (req, res, next) => {
-  let token = req.headers.authorization.split(" ")[1];
+  let token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : res.status(400).send({ message: MSG.PROVIDED_TOKEN });
 
   if (!token) return res.status(403).send({ message: MSG.PROVIDED_TOKEN });
 

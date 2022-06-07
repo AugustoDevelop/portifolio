@@ -9,12 +9,12 @@ router.get('/getUsers', authencation.verifyToken, async function (req, res) {
   return res.status(200).json(users);
 });
 
-router.get('/:email', authencation.verifyToken, async function (req, res) {
+router.get('/getUser/:email', authencation.verifyToken, async function (req, res) {
   const users = await userController.getUser(req.params);
   return users ? res.status(200).json(users) : res.status(400).json({ errorMessage: MSG.USER_NOT_FOUND });
 });
 
-router.patch('/:id', authencation.verifyToken, async function (req, res) {
+router.patch('/:email', authencation.verifyToken, async function (req, res) {
   const users = await userController.updateUser(req.params, req.body);
   return users ? res.status(200).json(users) : res.status(400).json({ errorMessage: MSG.USER_NOT_FOUND });
 });

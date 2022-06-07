@@ -13,6 +13,7 @@ connectDB();
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagerDocs));
 app.use('/users', require('./src/router/userRouter'));
+app.use('/roles', require('./src/router/roleRouter'));
 app.use('/auth', require('./src/router/authRouter'));
 
 app.listen(process.env.PORT || 3000);
