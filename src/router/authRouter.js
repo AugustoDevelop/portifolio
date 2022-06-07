@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controller/authController');
-const authencation = require("../middleware/authJwt");
+const verifySignUp = require("../middleware/verifySignUp");
 
-//Roles
-router.post("/createRole", authencation.verifyToken, authController.createRole);
+router.post("/signup",
+    [
+        verifySignUp.checkDuplicateUsernameOrEmail,
+        verifySignUp.checkRolesExisted
+    ],
+    authController.signup
+);
 
-router.patch("/updateRole/:name", authencation.verifyToken, authController.updateRole);
-
-router.delete("/deleteRole/:name", authencation.verifyToken, authController.deleteRole);
-
-router.get("/getRoles", authencation.verifyToken, authController.getRoles);
+router.post("/signin", authController.signin);
 
 module.exports = router;
