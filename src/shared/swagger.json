@@ -163,7 +163,40 @@
         }
       }
     },
-    "/role/createRole": {
+    "/users/getUser/{email}": {
+      "get": {
+        "summary": "Get user by email",
+        "description": "This route is responsible for get user by email",
+        "operationId": "getUserByEmail",
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "User email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {},
+          "400": {},
+          "401": {},
+          "404": {},
+          "500": {}
+        }
+      }
+    },
+    "/roles/createRole": {
       "post": {
         "summary": "User profile registration",
         "description": "This route is responsible for create a new profile for users",
@@ -233,7 +266,7 @@
         }
       }
     },
-    "/role/getRoles": {
+    "/roles/getRoles": {
       "get": {
         "summary": "User profile list",
         "description": "This route is responsible for listering for all roles",
@@ -293,7 +326,7 @@
         }
       }
     },
-    "/role/updateRole/{name}": {
+    "/roles/updateRole/{name}": {
       "patch": {
         "summary": "Update role",
         "description": "This route is responsible for update a role",
@@ -305,7 +338,7 @@
           {
             "name": "name",
             "in": "path",
-            "description": "Role name",
+            "description": "Old role name",
             "required": true,
             "schema": {
               "type": "string"
@@ -363,7 +396,7 @@
         }
       }
     },
-    "/role/deleteRole/{name}": {
+    "/roles/deleteRole/{name}": {
       "delete": {
         "summary": "Delete role",
         "description": "This route is responsible for delete a role",
@@ -422,6 +455,7 @@
         "properties": {
           "name": {
             "type": "string",
+            "description": "New role name",
             "example": "string"
           }
         }
