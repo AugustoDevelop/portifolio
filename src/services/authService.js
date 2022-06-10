@@ -1,4 +1,3 @@
-const Role = require("../models/role.model");
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -15,23 +14,6 @@ exports.signup = (req, res) => {
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
-  //   user.save((err, user) => {
-  //     if (err) return res.status(500).send({ message: err });
-  //     // Role.find({ name: { $in: req.body.roles } }, (err, roles) => {
-  //     //   user.roles = roles.map(role => role._id);
-  //     // });
-
-  //     // Role.findOne({ name: "user" }, (err, role) => {
-
-
-  //     //   user.roles = [role._id];
-  //     //   user.save(err => {
-  //     //     if (err) return res.status(500).send({ message: err });
-  //     //     res.send({ message: MSG.USER_SUCESS });
-  //     //   });
-  //     // });
-
-  //   });
 };
 
 exports.signin = (req, res) => {
