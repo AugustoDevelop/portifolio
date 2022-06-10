@@ -6,7 +6,10 @@ const opts = {
 
 const userSchema = new mongoose.Schema({
   fullName: String,
-  username: String,
+  username: {
+    type: String,
+    unique: true
+  },
   email: {
     type: String,
     unique: true,
@@ -17,7 +20,10 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   gender: String,
-  phone: Number,
+  phone: {
+    type: Number,
+    unique: true
+  },
   roles: [
     {
       type: mongoose.Schema.Types.ObjectId,

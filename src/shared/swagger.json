@@ -43,10 +43,42 @@
             "description": "This route is responsible for check user credentials",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Login"
+              "$ref": "#/components/schemas/RequestLogin"
             }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "User was authentic successfully!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLogin"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseLogin"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseLogin"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/auth/signup": {
@@ -63,7 +95,7 @@
             "description": "This route is responsible for register a new user",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Register"
+              "$ref": "#/components/schemas/RegisterUser"
             }
           }
         ],
@@ -78,7 +110,7 @@
                     "message": {
                       "type": "string",
                       "description": "User created successfully",
-                      "example": "User created successfully"
+                      "example": "string"
                     }
                   }
                 }
@@ -94,8 +126,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "description": "Bad Request",
-                      "example": "Failed! email is already in use"
+                      "example": "string"
                     }
                   }
                 }
@@ -460,28 +491,7 @@
           }
         }
       },
-      "BadRequest": {
-        "type": "object",
-        "message": {
-          "type": "string",
-          "description": "Bad Request",
-          "example": "string"
-        }
-      },
-      "Login": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "string"
-          },
-          "password": {
-            "type": "string",
-            "example": "string"
-          }
-        }
-      },
-      "Register": {
+      "RegisterUser": {
         "type": "object",
         "properties": {
           "fullName": {
@@ -508,6 +518,32 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "RequestLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "string"
+          },
+          "password": {
+            "type": "string",
+            "example": "string"
+          }
+        }
+      },
+      "ResponseLogin": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "string"
+          },
+          "accessToken": {
+            "type": "string",
+            "example": "string"
           }
         }
       }

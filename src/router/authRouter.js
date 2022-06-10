@@ -5,8 +5,10 @@ const verifySignUp = require("../middleware/verifySignUp");
 
 router.post("/signup",
     [
-        verifySignUp.checkDuplicateUsernameOrEmail,
-        verifySignUp.checkRolesExisted
+        verifySignUp.checkDuplicateEmail,
+        verifySignUp.checkRolesExisted,
+        verifySignUp.checkDuplicatePhone,
+        verifySignUp.checkDuplicateUsername
     ],
     authController.signup
 );
