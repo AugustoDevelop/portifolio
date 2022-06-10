@@ -27,5 +27,19 @@
     "ALREADY_EMAIL": "Email already exist!",
     "ALREADY_PHONE": "Phone already exist!",
     "INTERNAL_ERROR": "Internal server error",
-    "PASSWORD_NOT_MATCH": "Password not match"
+    "PASSWORD_NOT_MATCH": "Password not match",
+    "PASSWORD_LENGTH": "Password length must be at least 6 characters",
+    "PASSWORD_UPPER": "Password must contain at least one uppercase letter",
+    "PASSWORD_LOWER": "Password must contain at least one lowercase letter",
+    "PASSWORD_NUMBER": "Password must contain at least one number",
+    "PASSWORD_SPECIAL": "Password must contain at least one special character",
+    "LOGIN_SUCCESS": "Login success",
+    "LOGIN_FAIL": "Login failed",
+    "LOGOUT_SUCCESS": "Logout success",
+    "LOGOUT_FAIL": "Logout failed",
+    "TOKEN_EXPIRED": "Token expired",
+    "TOKEN_INVALID": "Token invalid",
+    "TOKEN_REQUIRED": "Token required",
+    "TOKEN_VERIFIED": "Token verified",
+    "TOKEN_NOT_GENERATED": "Token not generated"
 }
