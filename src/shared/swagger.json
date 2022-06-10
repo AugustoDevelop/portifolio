@@ -36,17 +36,17 @@
         ],
         "summary": "Check user credentials",
         "operationId": "signin",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "This route is responsible for check user credentials",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/RequestLogin"
+        "requestBody": {
+          "description": "This route is responsible for check user credentials",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestLogin"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "User was authentic successfully!",
@@ -88,17 +88,17 @@
         "tags": [
           "User"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "This route is responsible for register a new user",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/RegisterUser"
+        "requestBody": {
+          "description": "This route is responsible for register a new user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUser"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "User was registered successfully!",
@@ -437,8 +437,8 @@
         ],
         "parameters": [
           {
-            "name": "name",
             "in": "path",
+            "name": "name",
             "description": "Role name",
             "required": true,
             "schema": {
