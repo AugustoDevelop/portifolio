@@ -53,7 +53,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RequestLogin"
+                  "$ref": "#/components/schemas/ResponseLogin"
                 }
               }
             }
