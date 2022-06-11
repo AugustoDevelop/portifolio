@@ -4,12 +4,12 @@ const roleController = require('../controller/roleController');
 const authencation = require("../middleware/authJwt");
 
 //Roles
-router.post("/createRole", authencation.verifyToken, roleController.createRole);
+router.post("/role", authencation.verifyToken, roleController.createRole);
 
-router.patch("/updateRole/:name", authencation.verifyToken, roleController.updateRole);
+router.patch("/role/:name", authencation.verifyToken, roleController.updateRole);
 
-router.delete("/deleteRole/:name", authencation.verifyToken, roleController.deleteRole);
+router.delete("/role/:name", authencation.verifyToken, roleController.deleteRole);
 
-router.get("/getRoles", authencation.verifyToken, roleController.getRoles);
+router.get("/roles", authencation.verifyToken, roleController.getRoles);
 
 module.exports = router;

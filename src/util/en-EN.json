@@ -47,5 +47,6 @@
     "ERROR_CHECKING_EMAIL": "Error checking email",
     "ERROR_CHECKING_PHONE": "Error checking phone",
     "ERROR_CHECKING_USERNAME": "Error checking username",
-    "ERROR_CHECKING_ROLE": "Error checking role"
+    "ERROR_CHECKING_ROLE": "Error checking role",
+    "EMAIL_NOT_SENT": "Email not sent"
 }

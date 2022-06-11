@@ -10,7 +10,7 @@ exports.createRole = async (req, res) => {
 
     newRole.save((err, role) => {
       if (err) return res.status(500).send({ message: MSG.ROLE_FAIL });
-      res.send({ message: MSG.ROLE_SUCESS, role: role });
+      return res.send({ message: MSG.ROLE_SUCESS, role: role });
     });
   });
 }
