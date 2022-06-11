@@ -1,3 +1,3 @@
 # Portifolio
 
-Api responsible for creating and validating users
+Api responsible for create, authenticate and authorize users

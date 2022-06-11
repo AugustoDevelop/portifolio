@@ -1,5 +1,5 @@
 const Role = require("../models/role.model");
-const MSG = require("./../shared/en-EN.json")
+const MSG = require("./../util/en-EN.json")
 
 exports.createRole = async (req, res) => {
   Role.findOne({ name: req.body.name }, (err, role) => {
@@ -10,7 +10,7 @@ exports.createRole = async (req, res) => {
 
     newRole.save((err, role) => {
       if (err) return res.status(500).send({ message: MSG.ROLE_FAIL });
-      res.send({ message: MSG.ROLE_SUCESS, role: role });
+      return res.send({ message: MSG.ROLE_SUCESS, role: role });
     });
   });
 }

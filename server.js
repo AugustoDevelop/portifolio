@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const connectDB = require('./config/db.config');
 const swaggerUi = require('swagger-ui-express');
-const swagerDocs = require('./src/shared/swagger.json');
+const swagerDocs = require('./src/util/swagger.json');
 const errorHandler = require('./src/shared/error-handler');
 
 // parse requests of content-type - application/json

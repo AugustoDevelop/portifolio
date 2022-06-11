@@ -8,12 +8,7 @@
       "name": "Develop",
       "email": "augustodanieltec@gmail.com"
     },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    "version": "1.0.0",
-    "host": "http://localhost:3000/api-docs/"
+    "version": "1.0.0"
   },
   "servers": [
     {
@@ -24,9 +19,6 @@
       "url": "http://portifolio-user-api.herokuapp.com",
       "description": "Heroku server"
     }
-  ],
-  "schemes": [
-    "http"
   ],
   "paths": {
     "/auth/signin": {
@@ -53,7 +45,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseLogin"
+                  "$ref": "#/components/schemas/DefaultMessage"
                 }
               }
             }
@@ -63,17 +55,19 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseLogin"
+                  "$ref": "#/components/schemas/DefaultMessage"
                 },
                 "examples": {
-                  "1": {
+                  "Invalid Passaword": {
                     "value": {
-                      "message": "user not found"
+                      "message": "Password not match",
+                      "accessToken": "Token not generated"
                     }
                   },
-                  "2": {
+                  "Invalid email": {
                     "value": {
-                      "message": "user not active or password doesnt match"
+                      "message": "Invalid email",
+                      "accessToken": "Token not generated"
                     }
                   }
                 }
@@ -85,7 +79,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseLogin"
+                  "$ref": "#/components/schemas/DefaultMessage"
+                },
+                "examples": {
+                  "Internal": {
+                    "value": {
+                      "message": "Internal server error",
+                      "accessToken": "Token not generated"
+                    }
+                  }
                 }
               }
             }
@@ -121,7 +123,6 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "description": "User created successfully",
                       "example": "string"
                     }
                   }
@@ -130,15 +131,26 @@
             }
           },
           "400": {
-            "description": "Failed! email is already in use",
+            "description": "User creation failure",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "string"
+                  "$ref": "#/components/schemas/ResponseRegUser"
+                },
+                "examples": {
+                  "Email already exists": {
+                    "value": {
+                      "message": "Email already exists"
+                    }
+                  },
+                  "Username already exists": {
+                    "value": {
+                      "message": "Username already exists"
+                    }
+                  },
+                  "Phone already exists": {
+                    "value": {
+                      "message": "Phone already exists"
                     }
                   }
                 }
@@ -148,7 +160,7 @@
         }
       }
     },
-    "/users/getUsers": {
+    "/users": {
       "get": {
         "summary": "Get all users",
         "description": "Get all exist users in database",
@@ -167,46 +179,82 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "username": {
-                            "type": "string"
-                          },
-                          "email": {
-                            "type": "string"
-                          }
-                        }
+                  "type": "array",
+                  "$ref": "#/components/schemas/ResponseGetUsers"
+                },
+                "examples": {
+                  "result": {
+                    "value": [
+                      {
+                        "fullName": "Test Full Name",
+                        "username": "username",
+                        "email": "email@example.com",
+                        "gender": "male",
+                        "phone": 333,
+                        "roles": [
+                          "1a2b6d"
+                        ],
+                        "created_at": "2022-06-02T03:13:55.948Z",
+                        "updated_at": "2022-06-02T03:13:56.145Z"
+                      },
+                      {
+                        "fullName": "Swagger Full Name",
+                        "username": "swagger",
+                        "email": "swagger1@gmail.com",
+                        "gender": "female",
+                        "phone": 222,
+                        "roles": [
+                          "1a2b3c4d"
+                        ],
+                        "created_at": "2022-06-11T08:52:46.219Z",
+                        "updated_at": "2022-06-11T08:52:46.219Z"
                       }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultMessage"
+                },
+                "examples": {
+                  "Unauthenticated": {
+                    "value": {
+                      "message": "Unauthenticated user",
+                      "accessToken": "Token not matched"
                     }
                   }
                 }
               }
             }
           },
-          "400": {
-            "description": "No token provided"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Users not found"
-          },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultMessage"
+                },
+                "examples": {
+                  "Internal": {
+                    "value": {
+                      "message": "Internal Server Error",
+                      "accessToken": "Token not generated"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/users/getUser/{email}": {
+    "/users/{email}": {
       "get": {
         "summary": "Get user by email",
         "description": "This route is responsible for get user by email",
@@ -231,15 +279,66 @@
           }
         ],
         "responses": {
-          "200": {},
-          "400": {},
-          "401": {},
-          "404": {},
-          "500": {}
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                },
+                "examples": {
+                  "sucess": {
+                    "value": {
+                      "fullName": "Test Full Name",
+                      "username": "username",
+                      "email": "email@example.com",
+                      "gender": "male",
+                      "phone": 333,
+                      "roles": [
+                        "1a2b6d"
+                      ],
+                      "created_at": "2022-06-02T03:13:55.948Z",
+                      "updated_at": "2022-06-02T03:13:56.145Z"
+                    }
+                  },
+                  "empty": {
+                    "value": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400,"
+          },
+          "401": {
+            "description": "Unauthenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultMessage"
+                },
+                "examples": {
+                  "Unauthenticated": {
+                    "value": {
+                      "message": "Unauthenticated user",
+                      "accessToken": "Token not matched"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404,"
+          },
+          "500": {
+            "description": "505,"
+          }
         }
       }
     },
-    "/roles/createRole": {
+    "/roles/role": {
       "post": {
         "summary": "User profile registration",
         "description": "This route is responsible for create a new profile for users",
@@ -309,7 +408,7 @@
         }
       }
     },
-    "/roles/getRoles": {
+    "/roles/roles": {
       "get": {
         "summary": "User profile list",
         "description": "This route is responsible for listering for all roles",
@@ -369,7 +468,7 @@
         }
       }
     },
-    "/roles/updateRole/{name}": {
+    "/roles/role/{name}": {
       "patch": {
         "summary": "Update role",
         "description": "This route is responsible for update a role",
@@ -430,16 +529,16 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
-    "/roles/deleteRole/{name}": {
+    "/roles/drole/{name}": {
       "delete": {
         "summary": "Delete role",
         "description": "This route is responsible for delete a role",
@@ -481,11 +580,11 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -533,6 +632,52 @@
           }
         }
       },
+      "ResponseRegUser": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Users": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "roles": [
+            "string"
+          ],
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ResponseGetUsers": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Users"
+        }
+      },
       "RequestLogin": {
         "type": "object",
         "properties": {
@@ -546,7 +691,20 @@
           }
         }
       },
-      "ResponseLogin": {
+      "DefaultMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "string"
+          },
+          "accessToken": {
+            "type": "string",
+            "example": "string"
+          }
+        }
+      },
+      "Unauthorized": {
         "type": "object",
         "properties": {
           "message": {
