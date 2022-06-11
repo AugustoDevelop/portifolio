@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/userController');
-const MSG = require("./../shared/en-EN.json")
+const MSG = require("./../util/en-EN.json")
 const authencation = require("../middleware/authJwt");
 
 router.get('/getUsers', authencation.verifyToken, async function (req, res) {

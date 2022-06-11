@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../../config/auth.config");
-const MSG = require("../shared/en-EN.json")
+const MSG = require("../util/en-EN.json")
 
 exports.signup = (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, 8)

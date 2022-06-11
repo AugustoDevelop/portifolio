@@ -1,21 +1,22 @@
 {
   "name": "portifolio",
   "version": "1.0.0",
-  "description": "Api responsible for creating and validating userss",
+  "description": "Api responsible for create, authenticate and authorize users",
+  "author": "Augusto Daniel",
+  "license": "ISC",
   "main": "server.js",
+  "homepage": "https://github.com/AugustoDevelop/portifolio-user-api#readme",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AugustoDevelop/portifolio.git"
+    "url": "https://github.com/AugustoDevelop/portifolio-user-api.git"
   },
-  "author": "Augusto Daniel",
-  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AugustoDevelop/portifolio/issues"
+    "url": "https://github.com/AugustoDevelop/portifolio-user-api/issues"
   },
-  "homepage": "https://github.com/AugustoDevelop/portifolio#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",

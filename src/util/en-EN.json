@@ -7,6 +7,7 @@
     "ROLE_DELETE_FAIL": "Role deletion failed",
     "ROLE_EXIST": "Role already exist!",
     "ROLE_NOT_FOUND": "Role not found",
+    "ROLE_INVALID": "Invalid role",
     "USER_SUCESS": "User created successfully",
     "USER_FAIL": "User creation failed",
     "USER_UPDATE_SUCESS": "User updated successfully",
@@ -26,6 +27,7 @@
     "ROLE_MOD": "Require Mode Role",
     "ALREADY_EMAIL": "Email already exist!",
     "ALREADY_PHONE": "Phone already exist!",
+    "ALREADY_USERNAME": "Username already exist!",
     "INTERNAL_ERROR": "Internal server error",
     "PASSWORD_NOT_MATCH": "Password not match",
     "PASSWORD_LENGTH": "Password length must be at least 6 characters",
@@ -41,5 +43,9 @@
     "TOKEN_INVALID": "Token invalid",
     "TOKEN_REQUIRED": "Token required",
     "TOKEN_VERIFIED": "Token verified",
-    "TOKEN_NOT_GENERATED": "Token not generated"
+    "TOKEN_NOT_GENERATED": "Token not generated",
+    "ERROR_CHECKING_EMAIL": "Error checking email",
+    "ERROR_CHECKING_PHONE": "Error checking phone",
+    "ERROR_CHECKING_USERNAME": "Error checking username",
+    "ERROR_CHECKING_ROLE": "Error checking role"
 }

@@ -1,5 +1,5 @@
 const Role = require("../models/role.model");
-const MSG = require("./../shared/en-EN.json")
+const MSG = require("./../util/en-EN.json")
 
 exports.createRole = async (req, res) => {
   Role.findOne({ name: req.body.name }, (err, role) => {

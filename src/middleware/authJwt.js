@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../../config/auth.config");
 const User = require("../models/user.model");
 const Role = require("../models/role.model");
-const MSG = require("../shared/en-EN.json");
+const MSG = require("../util/en-EN.json");
 
 verifyToken = (req, res, next) => {
   let token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : res.status(400).send({ message: MSG.PROVIDED_TOKEN });
