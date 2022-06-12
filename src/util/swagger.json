@@ -216,7 +216,7 @@
             }
           },
           "401": {
-            "description": "Unauthenticated user",
+            "description": "Invalid Token",
             "content": {
               "application/json": {
                 "schema": {
@@ -225,8 +225,8 @@
                 "examples": {
                   "Unauthenticated": {
                     "value": {
-                      "message": "Unauthenticated user",
-                      "accessToken": "Token not matched"
+                      "message": "Unauthorized",
+                      "accessToken": "Invalid Token"
                     }
                   }
                 }
@@ -287,7 +287,7 @@
                   "$ref": "#/components/schemas/Users"
                 },
                 "examples": {
-                  "sucess": {
+                  "user": {
                     "value": {
                       "fullName": "Test Full Name",
                       "username": "username",
@@ -300,19 +300,30 @@
                       "created_at": "2022-06-02T03:13:55.948Z",
                       "updated_at": "2022-06-02T03:13:56.145Z"
                     }
-                  },
-                  "empty": {
-                    "value": []
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "400,"
+            "description": "If not sent in email format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnlyMessage"
+                },
+                "examples": {
+                  "Email not provided": {
+                    "value": {
+                      "message": "Email not provided"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthenticated user",
+            "description": "Invalid Token",
             "content": {
               "application/json": {
                 "schema": {
@@ -321,19 +332,93 @@
                 "examples": {
                   "Unauthenticated": {
                     "value": {
-                      "message": "Unauthenticated user",
-                      "accessToken": "Token not matched"
+                      "message": "Unauthorized",
+                      "accessToken": "Invalid token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "delete": {
+        "summary": "Delete user by id",
+        "description": "This route is responsible for delete user by id",
+        "operationId": "deleteUserById",
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultMessage"
+                },
+                "examples": {
+                  "User deleted": {
+                    "value": {
+                      "message": "User deleted"
                     }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "404,"
+          "400": {
+            "description": "If not sent in id format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnlyMessage"
+                },
+                "examples": {
+                  "Id not provided": {
+                    "value": {
+                      "message": "Id not provided"
+                    }
+                  }
+                }
+              }
+            }
           },
-          "500": {
-            "description": "505,"
+          "401": {
+            "description": "Invalid Token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultMessage"
+                },
+                "examples": {
+                  "Unauthenticated": {
+                    "value": {
+                      "message": "Unauthorized",
+                      "accessToken": "Invalid token"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -712,6 +797,15 @@
             "example": "string"
           },
           "accessToken": {
+            "type": "string",
+            "example": "string"
+          }
+        }
+      },
+      "OnlyMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
             "type": "string",
             "example": "string"
           }
