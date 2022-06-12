@@ -1,4 +1,6 @@
 const User = require("../models/user.model");
+const { validationResult } = require('express-validator');
+const MSG = require("./../util/en-EN.json")
 
 exports.users = async function () {
   try {
@@ -22,10 +24,12 @@ exports.users = async function () {
   }
 };
 
-exports.user = async function (req) {
+exports.user = async function (req, res) {
   try {
-    let resultDate = { _id, fullName, username, email, password, gender, phone, roles, created_at, updated_at, __v } = await User.findOne({ 'email': { '$regex': '^' + req.email } })
-    let users = { fullName, username, email, gender, phone, roles, created_at, updated_at }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ message: MSG.EMAIL_PROVIDED });
+    var resultDate = { _id, fullName, username, email, password, gender, phone, roles, created_at, updated_at, __v } = await User.findOne({ 'email': { '$regex': '^' + req.params.email } })
+    var users = { fullName, username, email, gender, phone, roles, created_at, updated_at }
     users.fullName = resultDate.fullName
     users.username = resultDate.username
     users.email = resultDate.email
@@ -35,9 +39,9 @@ exports.user = async function (req) {
     users.created_at = resultDate.created_at
     users.updated_at = resultDate.updated_at
 
-    return users;
+    return res.status(200).json({ user: users });
   } catch (error) {
-
+    return res.status(404).json({ message: MSG.USER_NOT_FOUND });
   }
 }
 

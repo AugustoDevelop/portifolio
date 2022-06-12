@@ -48,5 +48,6 @@
     "ERROR_CHECKING_PHONE": "Error checking phone",
     "ERROR_CHECKING_USERNAME": "Error checking username",
     "ERROR_CHECKING_ROLE": "Error checking role",
-    "EMAIL_NOT_SENT": "Email not sent"
+    "EMAIL_PROVIDED": "Email not provided",
+    "SUCCESS": "Success"
 }

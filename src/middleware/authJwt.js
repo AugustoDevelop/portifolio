@@ -5,10 +5,10 @@ const Role = require("../models/role.model");
 const MSG = require("../util/en-EN.json");
 
 verifyToken = (req, res, next) => {
-  let token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : res.status(400).send({ message: MSG.PROVIDED_TOKEN, accessToken: MSG.PROVIDED_TOKEN });
-  if (!token) return res.status(403).send({ message: MSG.PROVIDED_TOKEN, accessToken: MSG.Unauthorized, });
+  let token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : res.status(401).send({ message: MSG.PROVIDED_TOKEN, accessToken: MSG.INVALID_TOKEN });
+  if (!token) return res.status(401).send({ message: MSG.PROVIDED_TOKEN, accessToken: MSG.INVALID_TOKEN, });
   jwt.verify(token, process.env.secret || config.secret, (err, decoded) => {
-    if (err) return res.status(401).send({ message: MSG.Unauthorized, accessToken: MSG.Unauthorized, });
+    if (err) return res.status(401).send({ message: MSG.Unauthorized, accessToken: MSG.INVALID_TOKEN, });
     req.userId = decoded.id;
     next();
   });
