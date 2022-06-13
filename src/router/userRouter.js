@@ -6,6 +6,7 @@ const { check } = require('express-validator');
 
 router.get('/', authencation.verifyToken, userController.users);
 router.get('/:email', [check('email').isEmail(), authencation.verifyToken], userController.user);
-router.patch('/:email', authencation.verifyToken, userController.updateUser);
+router.patch('/:email', [check('email').isEmail(), authencation.verifyToken], userController.updateUser);
+router.delete('/:id', authencation.verifyToken, userController.deleteUser)
 
 module.exports = router;

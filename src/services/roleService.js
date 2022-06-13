@@ -39,23 +39,21 @@ exports.deleteRole = async (req, res) => {
   try {
     const filter = { name: req.params.name };
     await Role.deleteOne(filter, (err, role) => {
-      if (err) return res.status(500).send({ message: err });
       if (role.deletedCount === 0) return res.status(400).send({ message: "Role not found!" });
       if (role.deletedCount === 1) return res.status(200).send({ message: "Role was deleted successfully!" });
     });
   } catch (error) {
-
+    return res.status(500).json({ errorCatch: error });
   }
 }
 
 exports.getRoles = async (req, res) => {
   try {
     await Role.find((err, roles) => {
-      if (err) return res.status(500).send({ message: err });
       if (roles.length === 0) return res.status(400).send({ message: "Roles not found!" });
       return res.status(200).send({ message: "Success", roles });
     });
   } catch (error) {
-
+    return res.status(500).send({ message: err });
   }
 }
