@@ -47,24 +47,27 @@ exports.user = async function (req, res) {
 
 exports.updateUser = async function (id, body) {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ message: MSG.EMAIL_PROVIDED });
     let { fullName, username, password, gender, phone, role } = body
     let update = { fullName, username, password, gender, phone, role }
     return await User.findOneAndUpdate({ id: id }, update, { new: true })
 
   } catch (error) {
-
+    console.log("to aqui no error, ", error);
   }
 };
 
 
-exports.deluser = async function (req) {
+exports.deleteUser = async function (req, res) {
   try {
-    let aux = req
-    console.log(aux);
-    // return await User.findOneAndUpdate({ id: id }, update, { new: true })
-
+    await User.findByIdAndRemove({ _id: req.params.id }, (err, user) => {
+      if (user.deletedCount === 0) return res.status(404).send({ message: MSG.USER_NOT_FOUND });
+      if (user.deletedCount === 1) return res.status(200).send({ message: MSG.USER_DELETE_SUCESS });
+    });
   } catch (error) {
-
+    return res.status(500).send({ message: MSG.USER_DELETE_FAIL, error });
   }
+
 };
 
