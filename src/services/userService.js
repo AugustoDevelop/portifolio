@@ -58,16 +58,14 @@ exports.updateUser = async function (id, body) {
   }
 };
 
-
 exports.deleteUser = async function (req, res) {
   try {
-    await User.findByIdAndRemove({ _id: req.params.id }, (err, user) => {
-      if (user.deletedCount === 0) return res.status(404).send({ message: MSG.USER_NOT_FOUND });
+    await User.deleteOne(req.params, (err, user) => {
+      if (user.deletedCount === 0) return res.status(404).send({ message: MSG.USER_DELETE_FAIL, cause: MSG.USER_NOT_FOUND });
       if (user.deletedCount === 1) return res.status(200).send({ message: MSG.USER_DELETE_SUCESS });
     });
   } catch (error) {
     return res.status(500).send({ message: MSG.USER_DELETE_FAIL, error });
   }
-
 };
 
