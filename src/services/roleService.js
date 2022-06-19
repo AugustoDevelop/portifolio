@@ -49,10 +49,9 @@ exports.deleteRole = async (req, res) => {
 exports.getRoles = async (req, res) => {
   try {
     await Role.find((err, roles) => {
-      if (roles.length === 0) return res.status(400).send({ message: "Roles not found!" });
-      return res.status(200).send({ message: "Success", roles });
+      return res.status(200).send({ message: MSG.SUCCESS, data: roles });
     });
   } catch (error) {
-    return res.status(500).send({ message: err });
+    return res.status(500).send({ message: MSG.SUCCESS, error });
   }
 }
