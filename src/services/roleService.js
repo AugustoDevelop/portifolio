@@ -38,7 +38,7 @@ exports.updateRole = async (req, res) => {
 exports.deleteRole = async (req, res) => {
   try {
     await Role.deleteOne(req.params, (err, role) => {
-      if (role.deletedCount === 0) return res.status(404).send({ message: MSG.ROLE_DELETE_FAIL });
+      if (role.deletedCount === 0) return res.status(404).send({ message: MSG.ROLE_DELETE_FAIL, cause: MSG.ROLE_NOT_FOUND });
       if (role.deletedCount === 1) return res.status(200).send({ message: MSG.ROLE_DELETE_SUCESS });
     });
   } catch (error) {
