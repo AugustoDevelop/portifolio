@@ -63,7 +63,7 @@ exports.deleteUser = async function (req, res) {
     const result = await User.deleteOne(req.params);
     return result.deletedCount === 1 ? res.status(200).send({ message: MSG.USER_DELETE_SUCESS }) : res.status(404).send({ message: MSG.USER_NOT_FOUND });
   } catch (error) {
-    return res.status(500).send({ messageDelError: MSG.USER_DELETE_FAIL, error });
+    return res.status(500).send({ message: MSG.USER_DELETE_FAIL, error });
   }
 };
 
