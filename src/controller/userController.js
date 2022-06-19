@@ -12,7 +12,7 @@ exports.updateUser = function (id, body) {
   return userServices.updateUser(id, body);
 };
 
-exports.deluser = function (req) {
-  return userServices.deluser(req);
+exports.deleteUser = function (req, res) {
+  return userServices.deleteUser(req, res);
 };
 
