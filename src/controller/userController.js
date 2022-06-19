@@ -8,8 +8,8 @@ exports.user = function (req, res) {
   return userServices.user(req, res);
 };
 
-exports.updateUser = function (id, body) {
-  return userServices.updateUser(id, body);
+exports.updateUser = function (req, res) {
+  return userServices.updateUser(req, res);
 };
 
 exports.deleteUser = function (req, res) {

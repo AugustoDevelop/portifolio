@@ -12,10 +12,6 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
-      "description": "Local server"
-    },
-    {
       "url": "http://portifolio-user-api.herokuapp.com",
       "description": "Heroku server"
     }

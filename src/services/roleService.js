@@ -17,21 +17,11 @@ exports.createRole = async (req, res) => {
 
 exports.updateRole = async (req, res) => {
   try {
-    const filter = { name: req.params.name };
-    const update = { name: req.body.name };
-    const options = { new: true };
-    Role.findOne({ name: req.params.name }, (err, rol) => {
-      if (err) return res.status(500).send({ message: MSG.INTERNAL_ERROR });
-      if (!rol) return res.status(400).send({ message: MSG.ROLE_NOT_FOUND });
-
-      Role.updateOne(filter, update, options, (err, role) => {
-        if (err) return res.status(500).send({ message: MSG.ROLE_UPDATE_FAIL });
-        if (role.modifiedCount === 0) return res.status(400).send({ message: MSG.ROLE_NOT_FOUND });
-        if (role.modifiedCount === 1) return res.status(200).send({ message: MSG.ROLE_UPDATE_SUCESS, role: update });
-      });
-    });
+    const role = await Role.updateOne(req.params, req.body, { upsert: false })
+    if (role.modifiedCount === 0) return res.status(404).send({ message: MSG.ROLE_UPDATE_FAIL, cause: MSG.ROLE_NOT_FOUND });
+    if (role.modifiedCount === 1) return res.status(200).send({ message: MSG.ROLE_UPDATE_SUCESS });
   } catch (error) {
-
+    return res.status(500).send({ message: MSG.ROLE_UPDATE_FAIL, error });
   }
 }
 
