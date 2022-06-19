@@ -37,13 +37,12 @@ exports.updateRole = async (req, res) => {
 
 exports.deleteRole = async (req, res) => {
   try {
-    const filter = { name: req.params.name };
-    await Role.deleteOne(filter, (err, role) => {
-      if (role.deletedCount === 0) return res.status(400).send({ message: "Role not found!" });
-      if (role.deletedCount === 1) return res.status(200).send({ message: "Role was deleted successfully!" });
+    await Role.deleteOne(req.params, (err, role) => {
+      if (role.deletedCount === 0) return res.status(404).send({ message: MSG.ROLE_DELETE_FAIL });
+      if (role.deletedCount === 1) return res.status(200).send({ message: MSG.ROLE_DELETE_SUCESS });
     });
   } catch (error) {
-    return res.status(500).json({ errorCatch: error });
+    return res.status(500).json({ message: MSG.ROLE_DELETE_FAIL, error });
   }
 }
 
