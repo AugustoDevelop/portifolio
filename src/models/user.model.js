@@ -5,7 +5,10 @@ const opts = {
 }
 
 const userSchema = new mongoose.Schema({
-  fullName: String,
+  fullName: {
+    type: String,
+    trim: true
+  },
   username: {
     type: String,
     unique: true,

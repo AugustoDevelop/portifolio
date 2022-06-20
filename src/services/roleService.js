@@ -38,10 +38,18 @@ exports.deleteRole = async (req, res) => {
 
 exports.getRoles = async (req, res) => {
   try {
-    await Role.find((err, roles) => {
-      return res.status(200).send({ message: MSG.SUCCESS, data: roles });
-    });
+    const roles = await Role.find({}, { __v: 0 })
+    return res.status(200).send({ message: MSG.SUCCESS, data: roles });
   } catch (error) {
-    return res.status(500).send({ message: MSG.SUCCESS, error });
+    return res.status(500).send({ message: MSG.INTERNAL_ERROR, error });
+  }
+}
+
+exports.getRole = async (req, res) => {
+  try {
+    var resultDate = await Role.findOne({ 'name': req.params.name }, { __v: 0 })
+    return res.status(200).json({ message: MSG.SUCCESS, data: resultDate });
+  } catch (error) {
+    return res.status(500).json({ message: MSG.INTERNAL_ERROR, error });
   }
 }
