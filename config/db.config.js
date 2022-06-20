@@ -7,12 +7,10 @@ const connectDB = async (db = process.env.mongoURI || config.get('mongoURI')) =>
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
-    console.log('MongoDB Conected...')
+    console.log('Conected...')
   } catch (error) {
-
     console.error(error.message)
     process.exit(1)
-
   }
 }
 
