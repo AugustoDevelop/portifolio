@@ -11,6 +11,13 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 connectDB();
+app.use(cors({
+  "origin": "*",
+  "methods": "GET,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}));
+
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagerDocs));
 app.use('/users', require('./src/router/userRouter'));
