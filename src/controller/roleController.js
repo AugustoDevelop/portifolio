@@ -15,3 +15,7 @@ exports.deleteRole = function (req, res) {
 exports.getRoles = function (req, res) {
   return roleService.getRoles(req, res);
 }
+
+exports.getRole = function (req, res) {
+  return roleService.getRole(req, res);
+}

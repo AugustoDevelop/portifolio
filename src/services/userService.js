@@ -2,25 +2,12 @@ const User = require("../models/user.model");
 const { validationResult } = require('express-validator');
 const MSG = require("./../util/en-EN.json")
 
-exports.users = async function () {
+exports.users = async function (req, res) {
   try {
-    let resultDate = { _id, fullName, username, email, password, gender, phone, roles, created_at, updated_at, __v } = await User.find()
-    let users = { fullName, username, email, gender, phone, roles, created_at, updated_at }
-    let responseUser = []
-    resultDate.map(user => {
-      users.fullName = user.fullName
-      users.username = user.username
-      users.email = user.email
-      users.gender = user.gender
-      users.phone = user.phone
-      users.roles = user.roles
-      users.created_at = user.created_at
-      users.updated_at = user.updated_at
-      responseUser.push(users)
-    })
-    return responseUser;
+    const users = await User.find({}, { _id: 0, __v: 0, password: 0 }) // exclude __v and _id from response
+    return res.status(200).send({ message: MSG.SUCCESS, data: users });
   } catch (error) {
-
+    return res.status(500).send({ message: MSG.INTERNAL_ERROR, error });
   }
 };
 
@@ -28,27 +15,17 @@ exports.user = async function (req, res) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ message: MSG.EMAIL_PROVIDED });
-    var resultDate = { _id, fullName, username, email, password, gender, phone, roles, created_at, updated_at, __v } = await User.findOne({ 'email': { '$regex': '^' + req.params.email } })
-    var users = { fullName, username, email, gender, phone, roles, created_at, updated_at }
-    users.fullName = resultDate.fullName
-    users.username = resultDate.username
-    users.email = resultDate.email
-    users.gender = resultDate.gender
-    users.phone = resultDate.phone
-    users.roles = resultDate.roles
-    users.created_at = resultDate.created_at
-    users.updated_at = resultDate.updated_at
-
-    return res.status(200).json({ user: users });
+    var resultDate = await User.findOne({ 'email': req.params.email }, { _id: 0, __v: 0, password: 0 })
+    return res.status(200).json({ message: MSG.SUCCESS, data: resultDate });
   } catch (error) {
-    return res.status(404).json({ message: MSG.USER_NOT_FOUND });
+    return res.status(500).json({ message: MSG.INTERNAL_ERROR, error });
   }
 }
 
 exports.updateUser = async function (req, res) {
   try {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ message: MSG.EMAIL_PROVIDED });
+    if (!errors.isEmpty()) return res.status(400).json({ message: MSG.USER_UPDATE_FAIL, cause: MSG.EMAIL_PROVIDED });
 
     const user = await User.updateOne(req.params, req.body, { upsert: false })
     if (user.modifiedCount === 0) return res.status(404).send({ message: MSG.USER_UPDATE_FAIL, cause: MSG.USER_NOT_FOUND });

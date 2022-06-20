@@ -3,13 +3,10 @@ const router = express.Router();
 const roleController = require('../controller/roleController');
 const authencation = require("../middleware/authJwt");
 
-//Roles
-router.post("/role", authencation.verifyToken, roleController.createRole);
-
-router.patch("/role/:name", authencation.verifyToken, roleController.updateRole);
-
-router.delete("/role/:name", authencation.verifyToken, roleController.deleteRole);
-
-router.get("/roles", authencation.verifyToken, roleController.getRoles);
+router.get("/", authencation.authorize, roleController.getRoles);
+router.get("/:name", authencation.authorize, roleController.getRole);
+router.patch("/:name", authencation.authorize, roleController.updateRole);
+router.post("/", authencation.authorize, roleController.createRole);
+router.delete("/:name", authencation.authorize, roleController.deleteRole);
 
 module.exports = router;

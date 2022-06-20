@@ -2,17 +2,17 @@ const Role = require("../models/role.model");
 const MSG = require("./../util/en-EN.json")
 
 exports.createRole = async (req, res) => {
-  Role.findOne({ name: req.body.name }, (err, role) => {
-    if (err) return res.status(500).send({ message: MSG.INTERNAL_ERROR });
-    if (role) return res.status(400).send({ message: MSG.ROLE_EXIST });
-
-    const newRole = new Role(req.body);
-
-    newRole.save((err, role) => {
-      if (err) return res.status(500).send({ message: MSG.ROLE_FAIL });
-      return res.send({ message: MSG.ROLE_SUCESS, role: role });
+  try {
+    Role.findOne({ name: req.body.name }, (err, role) => {
+      if (role) return res.status(400).send({ message: MSG.ROLE_EXIST });
+      const newRole = new Role(req.body);
+      newRole.save((err, role) => {
+        return res.send({ message: MSG.ROLE_SUCESS, role: role });
+      });
     });
-  });
+  } catch (error) {
+    return res.status(500).send({ message: MSG.INTERNAL_ERROR, cause: error });
+  }
 }
 
 exports.updateRole = async (req, res) => {
@@ -38,10 +38,18 @@ exports.deleteRole = async (req, res) => {
 
 exports.getRoles = async (req, res) => {
   try {
-    await Role.find((err, roles) => {
-      return res.status(200).send({ message: MSG.SUCCESS, data: roles });
-    });
+    const roles = await Role.find({}, { __v: 0 })
+    return res.status(200).send({ message: MSG.SUCCESS, data: roles });
   } catch (error) {
-    return res.status(500).send({ message: MSG.SUCCESS, error });
+    return res.status(500).send({ message: MSG.INTERNAL_ERROR, error });
+  }
+}
+
+exports.getRole = async (req, res) => {
+  try {
+    var resultDate = await Role.findOne({ 'name': req.params.name }, { __v: 0 })
+    return res.status(200).json({ message: MSG.SUCCESS, data: resultDate });
+  } catch (error) {
+    return res.status(500).json({ message: MSG.INTERNAL_ERROR, error });
   }
 }

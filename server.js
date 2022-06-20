@@ -4,11 +4,10 @@ const connectDB = require('./config/db.config');
 const swaggerUi = require('swagger-ui-express');
 const swagerDocs = require('./src/util/swagger.json');
 const errorHandler = require('./src/shared/error-handler');
+const cors = require('cors');
 
-// parse requests of content-type - application/json
 app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 connectDB();
