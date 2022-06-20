@@ -1,7 +1,7 @@
 const userServices = require('../services/userService');
 
-exports.users = function () {
-  return userServices.users();
+exports.users = function (req, res) {
+  return userServices.users(req, res);
 };
 
 exports.user = function (req, res) {
