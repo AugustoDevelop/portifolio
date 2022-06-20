@@ -49,5 +49,7 @@
     "ERROR_CHECKING_USERNAME": "Error checking username",
     "ERROR_CHECKING_ROLE": "Error checking role",
     "EMAIL_PROVIDED": "Email not provided",
-    "SUCCESS": "Success"
+    "SUCCESS": "Success",
+    "REFRESH_TOKEN_SUCCESS": "Refresh token success",
+    "REFRESH_TOKEN_FAIL": "Refresh token failed"
 }
