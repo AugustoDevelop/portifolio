@@ -1,11 +1,9 @@
 const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("../../config/auth.config");
 const MSG = require("../util/en-EN.json")
+const security = require("../middleware/authJwt");
 
 exports.signup = (req, res) => {
-  req.body.password = bcrypt.hashSync(req.body.password, 10)
+  req.body.password = security.generateHash(req.body.password);
   const user = new User(req.body);
   try {
     user.save((err, user) => {
@@ -21,7 +19,7 @@ exports.signin = (req, res) => {
   try {
     User.findOne({ email: req.body.email }).populate("roles", "-__v").exec((err, user) => {
       if (!user) return res.status(401).send({ message: MSG.INVALID_EMAIL, accessToken: MSG.TOKEN_NOT_GENERATED });
-      var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+      var passwordIsValid = security.compareToken(req.body.password, user.password)
       if (!passwordIsValid) return res.status(401).send({ message: MSG.PASSWORD_NOT_MATCH, accessToken: MSG.TOKEN_NOT_GENERATED });
 
       var authorities = [];
@@ -29,7 +27,7 @@ exports.signin = (req, res) => {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
       }
 
-      var token = jwt.sign({ email: user.email, roles: authorities }, process.env.secret || config.secret, { expiresIn: 600 });
+      var token = security.generateToken({ email: user.email, roles: authorities })
 
       return res.status(200).send({
         message: MSG.LOGIN_SUCCESS,

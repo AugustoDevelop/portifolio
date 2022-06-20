@@ -752,9 +752,11 @@
           "phone": {
             "type": "number"
           },
-          "roles": {
-            "type": "string"
-          },
+          "roles": [
+            {
+              "type": "string"
+            }
+          ],
           "created_at": {
             "type": "string"
           },
