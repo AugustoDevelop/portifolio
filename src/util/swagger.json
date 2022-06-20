@@ -12,6 +12,10 @@
   },
   "servers": [
     {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    },
+    {
       "url": "http://portifolio-user-api.herokuapp.com",
       "description": "Heroku server"
     }
@@ -176,7 +180,10 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "$ref": "#/components/schemas/ResponseGetUsers"
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/ResponseGetUsers"
+                  }
                 },
                 "examples": {
                   "result": {
@@ -206,6 +213,9 @@
                         "updated_at": "2022-06-11T08:52:46.219Z"
                       }
                     ]
+                  },
+                  "result Empty": {
+                    "value": []
                   }
                 }
               }
@@ -742,9 +752,9 @@
           "phone": {
             "type": "number"
           },
-          "roles": [
-            "string"
-          ],
+          "roles": {
+            "type": "string"
+          },
           "created_at": {
             "type": "string"
           },
