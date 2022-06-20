@@ -11,12 +11,13 @@ generateToken = (data) => {
   return jwt.sign(data, process.env.secret || config.secret, { expiresIn: 1200 });
 }
 
-decodedToken = async (password) => {
-  return await jwt.verify(password, process.env.secret || config.secret);
+decodedToken = async (req) => {
+  const token = req.headers.authorization.split(" ")[1];
+  return jwt.verify(token, process.env.secret || config.secret);
 }
 
-compareToken = (token, hash) => {
-  return bcrypt.compareSync(token, hash);
+compareToken = (password, hash) => {
+  return bcrypt.compareSync(password, hash);
 }
 
 authorize = function (req, res, next) {

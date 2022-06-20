@@ -7,3 +7,7 @@ exports.signin = function (req, res) {
 exports.signup = function (req, res) {
   return authService.signup(req, res);
 };
+
+exports.refreshToken = function (req, res, next) {
+  return authService.refreshToken(req, res, next);
+}
